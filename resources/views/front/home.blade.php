@@ -2,15 +2,12 @@
 @section('content')
 <div class="banner">
             <div id="sync1" class="owl-carousel">
+            @foreach ($sliders as $slide)
                 <div class="item">
-                    <img src="  {{ asset('front/images/banner.jpg') }}" alt="banner">
+                    <img src="  {{ asset('images/') }}/{{ $slide->image}}" alt="banner">
                 </div>
-                <div class="item">
-                    <img src="  {{ asset('front/images/banner1.jpg') }}" alt="banner">
-                </div>
-                <div class="item">
-                    <img src="  {{ asset('front/images/banner2.jpg') }}" alt="banner">
-                </div>
+                @endforeach
+
             </div>
         </div>
         <section class="services-section">
@@ -184,78 +181,26 @@
             <h2>Testimonial</h2>
             <div class="slider-outer">
                 <div class="testimonial-slider owl-carousel">
+                @foreach ($testimonials as $test)
                     <div class="item">
                         <div class="row">
                             <div class="col-sm-3 col-xs-4">
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="  {{ asset('front/images/testimonial_3.jpg') }}" alt="Testimonial">
+                                        <img src="  {{ asset('images/') }}/{{ $test->image}}" alt="Testimonial">
                                     </div>
                                     <div class="media-body">
-                                        <h5>John Clay</h5>
-                                        <p>Cyclist</p>
+                                        <h5>{{ $test->name }}</h5>
+                                        <p>{{ $test->designation }}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-9 col-xs-8">
-                                <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
+                                <div class="description">"{{ $test->description}}"</div>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3 col-xs-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="  {{ asset('front/images/testimonial_3.jpg') }}" alt="Testimonial">
-                                    </div>
-                                    <div class="media-body">
-                                        <h5>John Clay</h5>
-                                        <p>Cyclist</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-9 col-xs-8">
-                                <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3 col-xs-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="  {{ asset('front/images/testimonial_3.jpg') }}" alt="Testimonial">
-                                    </div>
-                                    <div class="media-body">
-                                        <h5>John Clay</h5>
-                                        <p>Cyclist</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-9 col-xs-8">
-                                <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3 col-xs-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="  {{ asset('front/images/testimonial_3.jpg') }}" alt="Testimonial">
-                                    </div>
-                                    <div class="media-body">
-                                        <h5>John Clay</h5>
-                                        <p>Cyclist</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-9 col-xs-8">
-                                <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

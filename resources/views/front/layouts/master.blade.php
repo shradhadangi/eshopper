@@ -40,7 +40,8 @@
                             </button>
                         </div>
                         <div class="col-sm-1">
-                            <a href="{{route('site')}}" title="eShopper" class="logo"><img src="{{ asset('front/images/logo.svg')}}" alt="eShopper"></a>
+                            <a href="{{route('site')}}" title="eShopper" class="logo"><img src="{{ asset('images')}}/{{ $basic_detail->logo}}" alt="eShopper"></a>
+                            <!-- <a href="{{route('site')}}" title="eShopper" class="logo"><img src="{{ asset('front/images/logo.svg')}}" alt="eShopper"></a> -->
                         </div>
                         <div class="col-sm-5 col-xs-12">
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -53,15 +54,15 @@
                                          if(!$subcate->isEmpty()){ ?>
                                            <li class="menu-item">
                                             <!-- route('/product',['category_id',$cate->id]) -->
-                                                <a href="{{ route('product')}}" class="menu-link" title="{{ $cate->name}}">{{ $cate->name}}</a>
+                                                <a href="{{ route('product',['cid'=>$cate->id])}}" class="menu-link" title="{{ $cate->name}}">{{ $cate->name}}</a>
                                                 <ul class="sub-menu">
                                                 <?php foreach ($subcate as $scat){?>
-                                                    <li><a href="product-detail" title="{{ $scat->name}}">{{ $scat->name}}</a></li>
+                                                    <li><a href="{{ route('product',['cid'=>$cate->id,'sid'=>$scat->id])}}" title="{{ $scat->name}}">{{ $scat->name}}</a></li>
                                                 <?php } ?>
                                                 </ul>
                                             </li>
                                          <?php }else{ ?>
-                                             <li class="menu-item"><a href="{{route('product')}}" class="menu-link" title="{{ $cate->name}}">{{ $cate->name}}</a></li>
+                                             <li class="menu-item"><a href="{{ route('product',['cid'=>$cate->id])}}" class="menu-link" title="{{ $cate->name}}">{{ $cate->name}}</a></li>
                                            <?php } } ?>
                                             <!-- <li class="menu-item">
                                                 <a href="#" class="menu-link" title="Men">Men</a>
@@ -188,7 +189,7 @@
                     </form>
                     <ul class="footer-links">
                         <li><a href="index" title="Home">Home</a></li>
-                        <li><a href="about-us" title="About us">About us</a></li>
+                        <li><a href="{{route('about_us')}}" title="About us">About us</a></li>
                         <li><a href="register" title="Register">Register</a></li>
                         <li><a href="{{route('contact')}}" title="Contact us">Contact us</a></li>
                     </ul>

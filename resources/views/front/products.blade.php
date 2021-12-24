@@ -10,9 +10,9 @@
         <div class="breadcrumb-panel">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li><a href="index" title="Home">Home</a></li>
-                    <li><a href="product" title="Men">Men</a></li>
-                    <li class="active">T-shirts</li>
+                    <li><a href="{{route('site')}}" title="Home">Home</a></li>
+                    <li><a href="{{ ($category) ? route('product',['cid'=>$category->id]) : '#' }}" title="Men"><?= ($category) ? $category->name : 'Products'?></a></li>
+                    <li class="active"><?= ($subcategory) ? $subcategory->name : ''?></li>
                 </ol>
             </div>
         </div>
@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <h3>Men T-shirts</h3>
+                                    <h3>{{ ($category) ? $category->name : 'Products' }} {{ ($subcategory) ? $subcategory->name : '' }} </h3>
                                     <div class="toolbar clearfix">
 
                                         <div class="pager_right">
@@ -174,152 +174,23 @@
                                     </div>
                                     <div class="grid-content">
                                         <div class="grid row">
+                                        @foreach ($products as $product)
                                             <div class="col-sm-4 col-xs-6">
                                                 <figure class="effect-goliath">
                                                     <div class="thumb-outer">
-                                                        <a href="#" title="thumb" class="thumb-image"><img src="{{ asset('front/images/new-thumb-01.jpg') }}" alt="thumb"></a>
+                                                        <a href="#" title="thumb" class="thumb-image">
+                                                        <img src="{{ asset('images') }}/{{ $product->image}}" alt="thumb">
+                                                        </a>
                                                         <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
                                                     </div>
                                                     <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
+                                                        <a href="product-detail" title="{$product->name}} " class="heading">{{$product->name}} </a>
+                                                        <span>${{ $product->price}}.00</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-02.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-01.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-04.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <a href="#" title=""></a>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-05.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-06.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-07.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-01.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-01.jpg') }}" alt="thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-02.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-01.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col-sm-4 col-xs-6">
-                                                <figure class="effect-goliath">
-                                                    <div class="thumb-outer">
-                                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="{{ asset('front/images/new-thumb-04.jpg') }}" alt="Thumb"></a>
-                                                        <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
-                                                    </div>
-                                                    <a href="#" title=""></a>
-                                                    <figcaption>
-                                                        <a href="product-detail" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="heading">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
-                                                        <span>$120.00</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
+                                        @endforeach
+
                                         </div>
                                     </div>
 
