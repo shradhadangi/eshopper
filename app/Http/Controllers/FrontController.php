@@ -43,17 +43,17 @@ class FrontController extends Controller
         try{
             DB::beginTransaction();
             $array = [
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'subject'=>$request->subject,
-                'message'=>$request->message,
-            ];
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'subject'=>$request->subject,
+                    'message'=>$request->message,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                 ];
             if(!$array){
                 DB::rollback();
                 return back()->with('error','Error occured, please try again');
             }
-            DB::table('enquiries')
-            ->insert($array);
+            DB::table('enquiries')->insert($array);
             DB::commit();
             return back()->with('success','Thank you, we will get back to you soon.');
         }catch(\Throwable $th){

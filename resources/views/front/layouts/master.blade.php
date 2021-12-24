@@ -22,9 +22,7 @@
 	<script type="text/javascript" src="{{ asset('front/js/jquery.fancybox.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('front/js/respond.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('front/js/general.js') }}"></script>
-
 </head>
-
 <body>
     <div class="wrapper">
         <!-- Header Start -->

@@ -39,10 +39,12 @@ Route::middleware(['auth'])->group(function () {
         'as' => 'product-images.create',
         'uses' => 'App\Http\Controllers\Admin\ProductImageController@create'
         ]);
-    Route::resource('basic-detail','App\Http\Controllers\Admin\BasicDetailController');
-    Route::resource('slider','App\Http\Controllers\Admin\SliderController');
-    Route::resource('testimonial','App\Http\Controllers\Admin\TestimonialController');
-    Route::resource('about','App\Http\Controllers\Admin\AboutController');
+    Route::resource('basic-detail',App\Http\Controllers\Admin\BasicDetailController::class);
+    Route::resource('slider',App\Http\Controllers\Admin\SliderController::class);
+    Route::resource('testimonial',App\Http\Controllers\Admin\TestimonialController::class);
+    Route::resource('about',App\Http\Controllers\Admin\AboutController::class);
+    Route::resource('contact-enquiries',App\Http\Controllers\Admin\EnquiryController::class);
+
 });
 
 // Front end routing

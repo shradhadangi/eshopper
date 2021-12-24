@@ -72,11 +72,16 @@
                   <p>Testimonials</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="{{ route('about.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>About-us Detail</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('contact-enquiries.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Contact Enquiries</p>
                 </a>
               </li>
 
