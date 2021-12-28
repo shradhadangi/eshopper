@@ -226,7 +226,7 @@
                             </div>
                             <div class="form-group clearfix login-options">
                                 <button type="submit" class="btn-secondary">Login</button>
-                                <p>Not a Member? <a href="register" title="Register">Register</a></p>
+                                <p>Not a Member? <a href="{{ route('register')}}" title="Register">Register</a></p>
                             </div>
                         </form>
                     </div>

@@ -45,7 +45,7 @@
           </li>
 
 
-             <li class="nav-item">
+             <li class="nav-item menu-is-opening menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -53,7 +53,7 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="display:block;">
               <li class="nav-item">
                 <a href="{{ route('basic-detail.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -101,6 +101,15 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Product List
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('customer.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Customers List
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>

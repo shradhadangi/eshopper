@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('testimonial',App\Http\Controllers\Admin\TestimonialController::class);
     Route::resource('about',App\Http\Controllers\Admin\AboutController::class);
     Route::resource('contact-enquiries',App\Http\Controllers\Admin\EnquiryController::class);
+    Route::resource('customer',App\Http\Controllers\Admin\CustomersController::class);
 
 });
 
@@ -53,6 +54,9 @@ Route::get('product/{category_id?}/{subcategory_id?}', [App\Http\Controllers\Fro
 Route::get('contact-us', [App\Http\Controllers\FrontController::class, 'contact'])->name('contact');
 Route::post("save-enquiry",[App\Http\Controllers\FrontController::class,'save_enquiry'])->name('save_enquiry');
 Route::get('about-us', [App\Http\Controllers\FrontController::class, 'about_us'])->name('about_us');
+Route::get('product-detail/{product_id}', [App\Http\Controllers\FrontController::class, 'product_detail'])->name('product_detail');
+Route::get('register', [App\Http\Controllers\FrontController::class, 'registration'])->name('register');
+Route::post("save-customer",[App\Http\Controllers\FrontController::class,'save_customer'])->name('save-customer');
 // Route::get('/productsdfg/{category_id?}', function ($category_id) {
 //     //
 // });
