@@ -84,6 +84,12 @@
                   <p>Contact Enquiries</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('newsletters')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Newsletter Enquiries</p>
+                </a>
+              </li>
 
             </ul>
           </li>
@@ -92,6 +98,24 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Category
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('size.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Size
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('color.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Color
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
@@ -110,6 +134,15 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Customers List
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('order.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Orders List
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>

@@ -67,9 +67,10 @@
                             <form method="post" action="{{ route('products.destroy',['product'=>$v->id])}}">
                               @csrf
                               @method('DELETE')
-                            <button style="margin: 2px; float:revert;" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                            <button style="margin: 2px; float:revert;"  type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                             <a style="margin: 2px;float:left;" href="{{ route('product-images.create',['id'=>$v->id])}}" class="btn btn-sm btn-info"> Images </a>
+                            <a style="margin: 2px;float:left;" href="{{ route('product-reviews',['id'=>$v->id])}}" class="btn btn-sm btn-success"> Reviews </a>
                             </td>
                         </tr>
                     @endforeach

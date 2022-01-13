@@ -63,10 +63,10 @@
                                             <div class="filter-option-inner">
                                                 <ul>
                                                     <li class="custom-check">
-                                                        <label> <input type="radio" class="icheck" name="gender"> Male</label>
+                                                        <label> <input type="radio" class="icheck" value="Male" name="gender"> Male</label>
                                                     </li>
                                                     <li class="custom-check">
-                                                        <label> <input type="radio" class="icheck" name="gender"> Female</label>
+                                                        <label> <input type="radio" value="Female" class="icheck" name="gender"> Female</label>
                                                     </li>
                                                 </ul>
                                             </div>

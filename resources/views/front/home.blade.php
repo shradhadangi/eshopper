@@ -1,4 +1,6 @@
 @extends('front.layouts.master')
+
+@section('title') {{'Home'}} @endsection
 @section('content')
 <div class="banner">
             <div id="sync1" class="owl-carousel">
@@ -57,16 +59,24 @@
                                 <div class="col-sm-3 col-xs-6">
                                     <figure class="effect-goliath">
                                         <div class="thumb-outer">
-                                            <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men" class="thumb-image"><img src="  {{ asset('images') }}/{{$product->image}}" alt="thumb"></a>
-                                            <a href="cart" title="Add to Cart" class="cart-button">Add to Cart</a>
+                                            <a href="{{ route('product-detail',['product_id'=>$product->id])}}" title="{{ $product->name}}" class="thumb-image"><img src="  {{ asset('images') }}/{{$product->image}}" alt="thumb"></a>
+                                            <a href="javascript:void(0)" onclick="add_cart('{{ $product->id }}')" title="Add to Cart" class="cart-button" id="cartBtn{{ $product->id}}">Add to Cart</a>
                                         </div>
                                         <figcaption>
-                                            <a href="product-detail" title="{{ $product->name}}" class="heading">{{ $product->name}}</a>
+                                            <a href="{{ route('product-detail',['product_id'=>$product->id])}}" title="{{ $product->name}}" class="heading">{{ $product->name}}</a>
                                             <span>${{ $product->price}}</span>
                                         </figcaption>
                                     </figure>
                                 </div>
+                                <?php $sizes= explode(',',$product->size); ?>
+                                <input type="hidden" id="pqty{{$product->id}}"  value="1">
+                                <input type="hidden" id="psize_id{{$product->id}}"  value="{{ ($sizes) ? $sizes[0] : ''}}">
                                 @endforeach
+                                        <form id="fromAddToCart">
+                                            <input type="hidden" id="size_id" name="size_id" value="">
+                                            <input type="hidden" id="qty" name="qty" value="1">
+                                               <input type="hidden" id="product_id" name="product_id" value="">
+                                        </form>
                                 <!-- <div class="col-sm-3 col-xs-6">
                                     <figure class="effect-goliath">
                                         <div class="thumb-outer">
@@ -152,11 +162,11 @@
                                         </figcaption>
                                     </figure>
                                 </div> -->
-                                <div class="col-sm-12 col-xs-12">
+                                <!-- <div class="col-sm-12 col-xs-12">
                                     <span class="button-outer text-center">
                                       <a href="product" title="More Products" class="btn-tertiary">More Products</a>
                                   </span>
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                   </div>

@@ -124,15 +124,29 @@
 
                     <div class="col-md-6">
                     <div class="form-group">
-                      <label>Size (S,M,XL)</label>
-                        <textarea  class="form-control @error('size') is-invalid @enderror" name="size"  placeholder="Enter Size with comma separated">{{ old('size') ? old('size') : $value->size}}</textarea>
+                      <label>Size</label>
+                      <select name="size[]" class="form-control" id="size" multiple>
+                        <option value="">Select Size</option>
+                        @foreach ($sizes as $size)
+                         <option value="{{ $size->size}}" {{ (str_contains($value->size,$size->size)) ? 'selected' : ''}}>{{ $size->size}}</option>
+                        @endforeach
+                      </select>
+
+                        <!-- <textarea  class="form-control @error('size') is-invalid @enderror" name="size"  placeholder="Enter Size with comma separated">{{ old('size') ? old('size') : $value->size}}</textarea> -->
                         <span class="text-danger">@error('size') {{ $message}}@enderror</span>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Colours (Red,Blue,Green)</label>
-                        <textarea  class="form-control @error('colors') is-invalid @enderror" name="colors"  placeholder="Enter Colour with comma separated">{{ old('colors') ? old('colors') : $value->colors}}</textarea>
+                      <label>Colors</label>
+                      <select name="colors[]" class="form-control" id="colors" multiple>
+                        <option value="">Select Color</option>
+                        @foreach ($colors as $color)
+                         <option value="{{ $color->color}}" {{ (str_contains($value->colors,$color->color)) ? 'selected' : '' }}>{{ $color->color}}</option>
+                        @endforeach
+                      </select>
+
+                        <!-- <textarea  class="form-control @error('colors') is-invalid @enderror" name="colors"  placeholder="Enter Colour with comma separated">{{ old('colors') ? old('colors') : $value->colors}}</textarea> -->
                         <span class="text-danger">@error('colors') {{ $message}}@enderror</span>
                     </div>
                   </div>

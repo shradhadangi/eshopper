@@ -1,12 +1,13 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Slider;
+use App\Models\Size;
 use Illuminate\Http\Request;
 use DB;
-class SliderController extends Controller
+class SizeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class SliderController extends Controller
     public function index()
     {
         //
-        $values = Slider::all();
-        return view('admin.slider.add')->with([
+        $values = Size::all();
+        return view('admin.size.add')->with([
                 'values'=>$values]);
     }
 
@@ -42,21 +43,19 @@ class SliderController extends Controller
     {
         //
         $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048|required',
+            'name' => 'required',
         ]);
         try{
             DB::beginTransaction();
-                $imageName = time().'.'.$request->image->extension();
-                $request->image->move(public_path('images'), $imageName);
-                $create = Slider::create([
-                  'image'=>$imageName,
+                $create = Size::create([
+                  'size'=>ucfirst($request->name),
             ]);
             if(!$create){
                 DB::rollBack();
                 return back()->with('error','Error Occured, Try Again.');
             }
             DB::commit();
-            return back()->with('success','Slider Image Added Successfully.');
+            return back()->with('success','Size Added Successfully.');
         }catch(\Throwable $th){
             DB::rollBack();
             throw $th;
@@ -66,10 +65,10 @@ class SliderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Size  $Size
      * @return \Illuminate\Http\Response
      */
-    public function show(Slider $slider)
+    public function show(Size $Size)
     {
         //
     }
@@ -77,17 +76,17 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Size  $Size
      * @return \Illuminate\Http\Response
      */
-    public function edit(Slider $slider)
+    public function edit(Size $Size)
     {
         //
-        if(!$slider){
+        if(!$Size){
             return back()->with('error','Record not found.');
         }else{
-            return view('admin.slider.edit')->with([
-                'value'=>$slider,
+            return view('admin.size.edit')->with([
+                'value'=>$Size,
                 'success'=>'Record found successfully.'
             ]);
         }
@@ -97,33 +96,26 @@ class SliderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Size  $Size
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, Size $Size)
     {
         //
         $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+            'name' => 'required',
         ]);
         try{
          DB::beginTransaction();
-        if($slider->image){
-           $imageName = $slider->image;
-        }
-        if($request->image){
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-        }
-        $create = Slider::where('id',$slider->id)->update([
-                    'image'=>$imageName,
-                ]);
+        $create = Size::where('id',$Size->id)->update([
+            'size'=>ucfirst($request->name),
+      ]);
         if(!$create){
             DB::rollBack();
             return back()->with('error','Error Occured, Try Again.');
         }
         DB::commit();
-        return back()->with('success','Slider Image Upadetd Successfully.');
+        return back()->with('success','Size  Upadetd Successfully.');
         }catch(\Throwable $th){
             DB::rollBack();
             throw $th;
@@ -133,18 +125,15 @@ class SliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Size  $Size
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slider $slider)
+    public function destroy(Size $Size)
     {
         //
-        if($slider){
-            if (file_exists('images/'.$slider->image)){
-               unlink("images/".$slider->image);
-              }
-            $slider->delete();
-            return back()->with('success','Slider Image deleted successfully');
+        if($Size){
+            $Size->delete();
+            return back()->with('success','Size  deleted successfully');
         }else{
             return back()->with('error','Error occured, try again.');
         }

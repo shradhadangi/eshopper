@@ -56,11 +56,11 @@
                             <td>{{$v->mobile}}</td>
                             <td>{{$v->status}}</td>
                             <td style="display: flex;">
-                            <a href="" style="margin: 2px;float:left;" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                            <a href="{{ route('customer.show',['customer'=>$v->id])}}" style="margin: 2px;float:left;" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                             <form method="post" action="{{ route('customer.destroy',['customer'=>$v->id])}}">
                               @csrf
                               @method('DELETE')
-                               <button style="margin: 2px; float:revert;" onclick="confirm('Are you sure?')" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                               <button style="margin: 2px; float:revert;"  type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                             </td>
                         </tr>

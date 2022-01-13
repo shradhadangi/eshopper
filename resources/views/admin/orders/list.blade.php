@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') {{ 'Contact Enquiry List '}} @endsection
+@section('title') {{ 'Order List '}} @endsection
 @section('content')
 <style>
 .pagination{
@@ -40,26 +40,29 @@
                   <tr>
                     <th>S. No.</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Message</th>
+                    <th>Order Number</th>
+                    <th>Address</th>
+                    <th>Total</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
                     <?php $i=1;?>
-                        @foreach ($enquiries as $v)
+                        @foreach ($orders as $v)
                         <tr>
                             <td>{{ $i++;}}</td>
-                            <td>{{$v->name}}</td>
-                            <td>{{$v->email}}</td>
-                            <td>{{$v->subject}}</td>
-                            <td>{{$v->message}}</td>
+                            <td>{{$v->first_name}} {{$v->last_name}}</td>
+                            <td>{{$v->order_number}}</td>
+                            <td>{{$v->address}}</td>
+                            <td>${{$v->grand_total}}</td>
+                            <td><span class="badge badge-primary">{{$v->ord_status}}</span></td>
                             <td style="display: flex;">
-                            <form method="post" action="{{ route('contact-enquiries.destroy',['contact_enquiry'=>$v->id])}}">
+                            <a href="{{ route('order.show',['order'=>$v->ord_id])}}" style="margin: 2px;float:left;" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                            <form method="post" action="{{ route('order.destroy',['order'=>$v->ord_id])}}">
                               @csrf
                               @method('DELETE')
-                               <button style="margin: 2px; float:revert;" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                               <button style="margin: 2px; float:revert;" onclick="confirm('Are you sure?')" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                             </td>
                         </tr>

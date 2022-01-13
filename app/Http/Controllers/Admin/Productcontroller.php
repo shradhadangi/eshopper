@@ -16,14 +16,12 @@ class Productcontroller extends Controller
      */
     public function index()
     {
-        //
         //   $products = Product::select('*')->paginate(15);
           $products = Product::leftJoin('category as category_table', 'category_table.id','=','products.category_id')
           ->leftJoin('subcategory as subcat_table', 'subcat_table.id','=','products.subcat_id')
           ->select('products.*','subcat_table.name as sub_cat_name','category_table.name as cat_name')
           ->paginate(15);
           return view('admin.products.list',compact('products'));
-
     }
     /**
      * Show the form for creating a new resource.
@@ -34,8 +32,9 @@ class Productcontroller extends Controller
     {
         //
         $category = DB::table('category')->get();
-        return view('admin.products.add',compact('category'));
-
+        $colors = DB::table('color_master')->get();
+        $sizes = DB::table('size_master')->get();
+        return view('admin.products.add',compact('category','colors','sizes'));
     }
 
     /**
@@ -71,10 +70,9 @@ class Productcontroller extends Controller
             'product_description'=>$request->description,
             'cms'=>$request->cms,
             'image'=>$imageName,
-            'size'=>$request->size,
-            'colors'=>$request->colors
+            'size'=>isset($request->size) ? implode(',',$request->size):'',
+            'colors'=>isset($request->colors) ? implode(',',$request->colors):''
           ]);
-
         if(!$create){
             DB::rollBack();
             return back()->with('error','Error Occured, Try Again.');
@@ -110,20 +108,23 @@ class Productcontroller extends Controller
     {
         //
         $category = DB::table('category')->get();
+        $colors = DB::table('color_master')->get();
+        $sizes = DB::table('size_master')->get();
+
         $subcategory = DB::table('subcategory')->where('id',$product->category_id)->get();
         if(!$product){
             return back()->with('error','Record not found.');
         }else{
             return view('admin.products.edit')->with([
-                'value'=>$product,
-                'category'=>$category,
-                'subcategory'=>$subcategory,
-                'success'=>'Record found successfully.'
-            ]);
+                        'value'=>$product,
+                        'colors'=>$colors,
+                        'sizes'=>$sizes,
+                        'category'=>$category,
+                        'subcategory'=>$subcategory,
+                        'success'=>'Record found successfully.'
+                    ]);
         }
-
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -163,8 +164,9 @@ class Productcontroller extends Controller
             'product_description'=>$request->description,
             'cms'=>$request->cms,
             'image'=>$imageName,
-            'size'=>$request->size,
-            'colors'=>$request->colors,
+            'size'=>isset($request->size) ? implode(',',$request->size):'',
+            'colors'=>isset($request->colors) ? implode(',',$request->colors):''
+
 
         ]);
         if(!$create){
@@ -211,5 +213,30 @@ class Productcontroller extends Controller
         }
         return $subcat_data;
     }
-
+    public function product_reviews($id)
+    {
+        //
+        $array = DB::table('products')->where('id',$id)->first();
+        $product_reviews = DB::table('product_reviews')
+        ->leftJoin('customers', 'customers.id','=','product_reviews.customer_id')
+        ->where('product_id',$id)
+        ->select('product_reviews.*','customers.first_name','customers.last_name')
+        ->orderBy('id','desc')
+        ->get();
+        return view('admin.products.reviews')->with([
+                'product_id'=>$id,
+                'values'=>$product_reviews,
+                'product'=>$array
+            ]);
+    }
+    public function delete_review($id)
+    {
+        //
+        if($id){
+            DB::table('product_reviews')->where('id',$id)->delete();
+            return back()->with('success','Review deleted successfully.');
+        }else{
+            return back()->with('error','Error occured, try again.');
+        }
+    }
 }

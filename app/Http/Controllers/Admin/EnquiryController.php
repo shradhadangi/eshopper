@@ -20,6 +20,13 @@ class EnquiryController extends Controller
         return view('admin.enquiry.list',compact('enquiries'));
     }
 
+    public function newsletters()
+    {
+        //
+        $enquiries = DB::table('newsletters')->get();
+        return view('admin.enquiry.newsletters',compact('enquiries'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -86,6 +93,16 @@ class EnquiryController extends Controller
         //
         if($enquiry){
             Enquiry::where('id',$enquiry)->delete();
+            return back()->with('success','Enquiry deleted successfully');
+        }else{
+            return back()->with('error','Error occured, try again.');
+        }
+    }
+    public function delete_newsletter($enquiry)
+    {
+        //
+        if($enquiry){
+            DB::table('newsletters')->where('id',$enquiry)->delete();
             return back()->with('success','Enquiry deleted successfully');
         }else{
             return back()->with('error','Error occured, try again.');

@@ -3,21 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Slider;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use DB;
-class SliderController extends Controller
+class ColorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
-        $values = Slider::all();
-        return view('admin.slider.add')->with([
+        $values = Color::all();
+        return view('admin.color.add')->with([
                 'values'=>$values]);
     }
 
@@ -42,21 +37,20 @@ class SliderController extends Controller
     {
         //
         $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048|required',
+            'name' => 'required',
         ]);
         try{
             DB::beginTransaction();
-                $imageName = time().'.'.$request->image->extension();
-                $request->image->move(public_path('images'), $imageName);
-                $create = Slider::create([
-                  'image'=>$imageName,
+                $create = Color::create([
+                  'color'=>ucfirst($request->name),
+                  'color_code'=>$request->color_code,
             ]);
             if(!$create){
                 DB::rollBack();
                 return back()->with('error','Error Occured, Try Again.');
             }
             DB::commit();
-            return back()->with('success','Slider Image Added Successfully.');
+            return back()->with('success','Color  Added Successfully.');
         }catch(\Throwable $th){
             DB::rollBack();
             throw $th;
@@ -66,10 +60,10 @@ class SliderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Color  $Color
      * @return \Illuminate\Http\Response
      */
-    public function show(Slider $slider)
+    public function show(Color $Color)
     {
         //
     }
@@ -77,17 +71,17 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Color  $Color
      * @return \Illuminate\Http\Response
      */
-    public function edit(Slider $slider)
+    public function edit(Color $Color)
     {
         //
-        if(!$slider){
+        if(!$Color){
             return back()->with('error','Record not found.');
         }else{
-            return view('admin.slider.edit')->with([
-                'value'=>$slider,
+            return view('admin.color.edit')->with([
+                'value'=>$Color,
                 'success'=>'Record found successfully.'
             ]);
         }
@@ -97,33 +91,27 @@ class SliderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Color  $Color
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, Color $Color)
     {
         //
         $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+            'name' => 'required',
         ]);
         try{
          DB::beginTransaction();
-        if($slider->image){
-           $imageName = $slider->image;
-        }
-        if($request->image){
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-        }
-        $create = Slider::where('id',$slider->id)->update([
-                    'image'=>$imageName,
-                ]);
+        $create = Color::where('id',$Color->id)->update([
+            'color'=>ucfirst($request->name),
+            'color_code'=>$request->color_code,
+      ]);
         if(!$create){
             DB::rollBack();
             return back()->with('error','Error Occured, Try Again.');
         }
         DB::commit();
-        return back()->with('success','Slider Image Upadetd Successfully.');
+        return back()->with('success','Color  Upadetd Successfully.');
         }catch(\Throwable $th){
             DB::rollBack();
             throw $th;
@@ -133,18 +121,15 @@ class SliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Color  $Color
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slider $slider)
+    public function destroy(Color $Color)
     {
         //
-        if($slider){
-            if (file_exists('images/'.$slider->image)){
-               unlink("images/".$slider->image);
-              }
-            $slider->delete();
-            return back()->with('success','Slider Image deleted successfully');
+        if($Color){
+            $Color->delete();
+            return back()->with('success','Color  deleted successfully');
         }else{
             return back()->with('error','Error occured, try again.');
         }

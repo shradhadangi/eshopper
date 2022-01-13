@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') {{ 'Contact Enquiry List '}} @endsection
+@section('title') {{ 'Review List '}} @endsection
 @section('content')
 <style>
 .pagination{
@@ -30,36 +30,41 @@
           @endif
            <!-- /.card -->
             <div class="card">
+
               <div class="card-header">
-                <h3 class="card-title">DataTable with default features</h3>
-               </div>
+
+                <h3 class="card-title">{{$product->name}}</h3>
+
+                <a href="{{ route('products.index')}}" class="btn btn-sm btn-info" style="float: right;">
+                <i class="fa fa-arrow-left"></i> Products List </a>
+            </div>
               <!-- /.card-header -->
-               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+              <div class="card-body">
+                <table id="example11" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>S. No.</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Message</th>
+                    <th>Customer</th>
+                    <th>Review</th>
+                    <th>Rating</th>
+                    <th>Date</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
                     <?php $i=1;?>
-                        @foreach ($enquiries as $v)
+                  @foreach ($values as $v)
                         <tr>
                             <td>{{ $i++;}}</td>
-                            <td>{{$v->name}}</td>
-                            <td>{{$v->email}}</td>
-                            <td>{{$v->subject}}</td>
-                            <td>{{$v->message}}</td>
+                            <td>{{$v->first_name}} {{$v->last_name}}</td>
+                            <td>{{$v->review}}</td>
+                            <td>{{$v->rating}}</td>
+                            <td>{{ $v->created_at}}</td>
                             <td style="display: flex;">
-                            <form method="post" action="{{ route('contact-enquiries.destroy',['contact_enquiry'=>$v->id])}}">
+                            <!-- <a style="margin: 2px;float:left;" href="{{ route('products.edit',['product'=>$v->id])}}" class="btn btn-sm btn-info"> <i class="fa fa-edit"></i> </a> -->
+                            <form method="post" action="{{ route('delete-review',['id'=>$v->id])}}">
                               @csrf
-                              @method('DELETE')
-                               <button style="margin: 2px; float:revert;" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                            <button style="margin: 2px; float:revert;" type="submit"  class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                             </td>
                         </tr>
@@ -77,4 +82,5 @@
       </div>
       <!-- /.container-fluid -->
     </section>
+
 @endsection

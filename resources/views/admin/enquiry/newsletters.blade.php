@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') {{ 'Contact Enquiry List '}} @endsection
+@section('title') {{ 'Enquiry List '}} @endsection
 @section('content')
 <style>
 .pagination{
@@ -20,7 +20,7 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+          @endif
           @if(session('success'))
               <div class="alert alert-success alert-dismissible" style="width:50%;">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -28,37 +28,30 @@
                   {{ session('success')}}
                 </div>
           @endif
-           <!-- /.card -->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">DataTable with default features</h3>
                </div>
-              <!-- /.card-header -->
                <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>S. No.</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Message</th>
-                    <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+                    <thead>
+                        <tr>
+                          <th>S. No.</th>
+                          <th>Email</th>
+                          <th>Date-Time</th>
+                          <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <?php $i=1;?>
                         @foreach ($enquiries as $v)
                         <tr>
                             <td>{{ $i++;}}</td>
-                            <td>{{$v->name}}</td>
-                            <td>{{$v->email}}</td>
-                            <td>{{$v->subject}}</td>
-                            <td>{{$v->message}}</td>
+                            <td>{{ $v->email }}</td>
+                            <td>{{ $v->created_at }}</td>
                             <td style="display: flex;">
-                            <form method="post" action="{{ route('contact-enquiries.destroy',['contact_enquiry'=>$v->id])}}">
+                            <form method="post" action="{{ route('delete-newsletter',['id'=>$v->id])}}">
                               @csrf
-                              @method('DELETE')
                                <button style="margin: 2px; float:revert;" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                             </td>
@@ -75,6 +68,5 @@
         </div>
         <!-- /.row -->
       </div>
-      <!-- /.container-fluid -->
-    </section>
+</section>
 @endsection

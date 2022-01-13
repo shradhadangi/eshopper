@@ -311,30 +311,7 @@
       });
     });
 </script>
-<script type="text/javascript">
-      $.ajaxSetup({
-      headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-      });
-      $(document).ready(function () {
-        $('#show_btn').on('click',function(e) {
-          var cat_id = e.target.value;
-        $.ajax({
-            url:"{{ route('products.subcat') }}",
-            type:"POST",
-            data: {
-            cat_id: cat_id
-        },
-        success:function (data) {
-          console.log(data);
-        $('#subcategory').empty();
-        $('#subcategory').html(data);
-        }
-      })
-      });
-    });
-</script>
+
 <script>
   $(function () {
     // Summernote
