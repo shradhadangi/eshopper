@@ -139,9 +139,65 @@ function get_size(size,id){
         // size_data = size_data.replace(','+size,'');
         size_data = size_data.replace(size,'');
     }
-    $("#size_data").attr('value',size_data)
+    // $("#size_data").attr('value',size_data)
+    $("#size_data").attr('value',size)
     // console.log(size_data);
     jQuery('#productFilter').submit();
-
+}
+function get_color(color,id){
+    $("#color_data").attr('value',color)
+    jQuery('#productFilter').submit();
+}
+function match_password(value) {
+    var pass = $('#get_password').val();
+    if (value != pass) {
+        $('#p_show').show();
+        $("#update-password").attr('disabled', 'disabled');
+    } else {
+        $('#p_show').hide();
+        $("#update-password").removeAttr('disabled');
+    }
 
 }
+$("#checkAll").click(function() {
+    $('input:checkbox').not(this).prop('checked', this.checked);
+});
+// function autolo(){
+// var current_page = 1;
+// var fetch_lock = false;
+// var fetch_page = function() {
+//     if(fetch_lock) return;
+//     fetch_lock = true;
+//     $.getJSON('\get_more_product', {page_index: current_page; page_size: 10}, function(data) {
+//         // render your data here.
+//         current_page += 1;
+//         if(data.length == 0) {
+//             // hide the `more` tag, show that there are no more data.
+//             // do not disable the lock in this case.
+//         }
+//         else {
+//             fetch_lock = false;
+//         }
+//     });
+// }
+
+// $(function() {
+
+    // the definition above.
+    // ...
+
+    // 1. on page loaded.
+//     fetch_page();
+
+//     // 2. on scroll to bottom
+//     $(window).scroll(function() {
+//         if($('body').scrollTop() + $(window).height() == $('body').height()) {
+//             fetch_page();
+//         }
+//     });
+
+//     // 3. on the `more` tag clicked.
+//     $('.more').click(fetch_page);
+
+// });
+// }

@@ -91,9 +91,10 @@ class FrontController extends Controller
 
   public function products(Request $request){
     $sid = null;
-    $id = (isset($_GET['cid'])) ? $_GET['cid'] : NUll ;
+    $id = (isset($_GET['cid'])) ? $_GET['cid'] : '' ;
     $sid = (isset($_GET['sid'])) ?   $_GET['sid'] : '' ;
     $size_d = (isset($_GET['size'])) ?   $_GET['size'] : '' ;
+    $color_d = (isset($_GET['color'])) ?   $_GET['color'] : '' ;
     $sort = '';
     if($request->get('sort')!==null){
         $sort = $request->get('sort');
@@ -115,7 +116,10 @@ class FrontController extends Controller
       $subcategory_data = NULL;
     }
     if($size_d){
-      // $query = $query->where('size','like', '%' . $size_d. '%');
+        $query = $query->orwhere('size','like', '%' . $size_d. '%');
+    }
+    if($color_d){
+        $query = $query->where('colors','like', '%' . $color_d. '%');
     }
 
     if($sort=='name'){
@@ -488,4 +492,120 @@ public function order_detail($id)
 
     return view('front.order_detail',compact('basic_detail','categories','order','order_details'));
 }
+public  function change_password(){
+  if(!session()->has('USER_LOGIN')){
+    return redirect()->route('register');
+  }
+  $categories = Category::select('*')->get();
+  $basic_detail = BasicDetail::find(1);
+  $customer =  DB::table('customers')->where('id',session()->get('USER_ID'))->first();
+  return view('front.change_password',compact('basic_detail','categories','customer'));
+}
+public function update_password(Request $request){
+  $request->validate([
+            'password' => 'required|min:6',
+           ]);
+        try{
+            DB::beginTransaction();
+            $array = [
+                      'password'=>Crypt::encrypt($request->password),
+                    ];
+            if(!$array){
+                DB::rollback();
+                return back()->with('error','Error occured, please try again');
+            }
+          $cust_id = DB::table('customers')->where('id',session()->get('USER_ID'))->update($array);
+            DB::commit();
+            return back()->with('success','Password updated successfully');
+        }catch(\Throwable $th){
+                DB::rollBack();
+                return $th;
+        }
+}
+public function cancel_order(Request $request){
+          // $request->validate([
+          //   'password' => 'required|min:6',
+          //  ]);
+        try{
+            DB::beginTransaction();
+            $array = [
+                      'status'=>'Cancelled',
+                    ];
+            if(!$array){
+                DB::rollback();
+                return back()->with('error','Error occured, please try again');
+            }
+          $cust_id = DB::table('orders')->where('id',$request->order_id)->update($array);
+            DB::commit();
+            return back()->with('success','Order cancelled successfully');
+        }catch(\Throwable $th){
+                DB::rollBack();
+                return $th;
+        }
+}
+public function cancel_item(Request $request){
+  // $request->validate([
+  //   'password' => 'required|min:6',
+  //  ]);
+try{
+    DB::beginTransaction();
+    $array = [
+              'status'=>'Cancelled',
+            ];
+    if(!$array){
+        DB::rollback();
+        return back()->with('error','Error occured, please try again');
+    }
+    $items = $request->item();
+    for($i=0;$i<count($items); $i++){
+        $cust_id = DB::table('order_details')->where('id',$request->items[$i])->update($array);
+     }
+    DB::commit();
+    return back()->with('success','Order item cancelled successfully');
+}catch(\Throwable $th){
+        DB::rollBack();
+        return $th;
+}
+}
+public function getProducts(Request $request)
+    {
+        $results = Product::orderBy('id')->paginate(3);
+        $d_products = '';
+        if ($request->ajax()) {
+            foreach ($results as $product) {
+              $route_link = route('product-detail',['product_id'=>$product->id]);
+              $image_path = asset('images').'/'.$product->image;
+              $sizes= explode(',',$product->size);
+              $size = ($sizes) ? $sizes[0] : '';
+             $d_products .= '<div class="col-sm-4 col-xs-6">
+              <figure class="effect-goliath">
+                  <div class="thumb-outer">
+                      <a href="'.$route_link.'" title="thumb" class="thumb-image">
+                      <img src="'.$image_path.'" alt="thumb">
+                      </a>
+                      <a href="javascript:void(0)" id="cartBtn{{ $product->id}}" onclick="add_cart('. $product->id.')" title="Add to Cart" class="cart-button">Add to Cart</a>
+                  </div>
+                  <figcaption>
+                      <a href="'.$route_link.'" title="'.$product->name.'" class="heading">'.$product->name.'</a>
+                      <span>$'.$product->price.'.00</span>
+                  </figcaption>
+              </figure>
+          </div>
+          <input type="hidden" id="pqty'.$product->id.'"  value="1">
+          <input type="hidden" id="psize_id'.$product->id.'"  value="'.$size.'">';
+                // $artilces.='<div class="card mb-2"> <div class="card-body">'.$result->id.' <h5 class="card-title">'.$result->post_name.'</h5> '.$result->post_description.'</div></div>';
+            }
+            return $d_products;
+        }
+        $categories = Category::select('*')->get();
+        $basic_detail = BasicDetail::find(1);
+        $color_data = DB::table('color_master')->get();
+        $size_data = DB::table('size_master')->get();
+        $category = NULL;
+        $subcategory = NULL;
+        $subcategory_data = NULL;
+        $products = array();
+
+        return view('front.products',compact('categories','products','basic_detail','category','subcategory','subcategory_data','size_data','color_data'));
+    }
 }

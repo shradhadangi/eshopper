@@ -48,6 +48,8 @@ class CategoryController extends Controller
             DB::beginTransaction();
             $array = Category::create([
                 'name'=>$request->name,
+                'slug'=>strtolower(str_replace(' ','-',$request->name)),
+
             ]);
             if(!$array)
             {
@@ -107,7 +109,8 @@ class CategoryController extends Controller
         try{
             DB::beginTransaction();
             $array = Category::where('id',$category)->update([
-                'name'=>$request->name
+                'name'=>$request->name,
+                'slug'=>strtolower(str_replace(' ','-',$request->name)).'-'.$category,
             ]);
             if(!$array)
             {

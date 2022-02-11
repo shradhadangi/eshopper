@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
 // Front end routing
 Route::get('/site', [App\Http\Controllers\FrontController::class, 'index'])->name('site');
 Route::get('product/{category_id?}/{subcategory_id?}', [App\Http\Controllers\FrontController::class, 'products'])->name('product');
+Route::get('/produts', [App\Http\Controllers\FrontController::class, 'getProducts'])->name('produts');
 Route::get('contact-us', [App\Http\Controllers\FrontController::class, 'contact'])->name('contact');
 Route::post("save-enquiry",[App\Http\Controllers\FrontController::class,'save_enquiry'])->name('save_enquiry');
 Route::post("save_newsletter",[App\Http\Controllers\FrontController::class,'save_newsletter'])->name('save_newsletter');
@@ -87,6 +88,9 @@ Route::post("/update-profile",[App\Http\Controllers\FrontController::class,'upda
 Route::post("/review-submit",[App\Http\Controllers\FrontController::class,'review_submit'])->name('review-submit');
 Route::get("/my-orders",[App\Http\Controllers\FrontController::class,'my_orders'])->name('my-orders');
 Route::get("/order-detail/{id}",[App\Http\Controllers\FrontController::class,'order_detail'])->name('order-detail');
+Route::get("/change-password",[App\Http\Controllers\FrontController::class,'change_password'])->name('change-password');
+Route::post("/update-password",[App\Http\Controllers\FrontController::class,'update_password'])->name('update-password');
+Route::post("/cancel-order",[App\Http\Controllers\FrontController::class,'cancel_order'])->name('cancel-order');
 // Route::get('/productsdfg/{category_id?}', function ($category_id) {
 //     //
 // });

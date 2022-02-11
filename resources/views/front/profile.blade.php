@@ -39,6 +39,7 @@
            @endif
 
                 <div class="row">
+                    <a href="{{ route('change-password')}}" class ="btn btn-sm btn-info pull-right">Change Password</a>
                     <a href="{{ route('my-orders')}}" class ="btn btn-sm btn-info pull-right">My Orders</a>
                     <div class="col-sm-12 register profile">
                         <form class="form-block" action="{{ route('update-profile')}}" method="post">

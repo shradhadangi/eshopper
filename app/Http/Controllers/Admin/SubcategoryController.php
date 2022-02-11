@@ -64,6 +64,8 @@ class SubcategoryController extends Controller
             $array = Subcategory::create([
                 'name'=>$request->name,
                 'category_id'=>$request->cat_id,
+                'slug'=>strtolower(str_replace(' ','-',$request->name)),
+
             ]);
             if(!$array)
             {
@@ -129,6 +131,8 @@ class SubcategoryController extends Controller
             $array = Subcategory::where('id',$subcategory)->update([
                 'name'=>$request->name,
                 'category_id'=>$request->cat_id,
+                'slug'=>strtolower(str_replace(' ','-',$request->name)).'-'.$subcategory,
+
             ]);
             if(!$array)
             {

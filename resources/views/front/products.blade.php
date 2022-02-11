@@ -1,17 +1,234 @@
 @extends('front.layouts.master')
 @section('title') {{ 'All Products' }} @endsection
 @section('content')
+<style>
+    .price-title {
+  position: relative;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 400;
+  background: #d58e32;
+  padding:10px;
+}
+
+.price-container {
+      display: flex;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-left: 57px;
+  width:100px;
+}
+
+.price-field {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  padding-top: 15px;
+  padding-left: 0px;
+}
+
+.price-field input[type=range] {
+    position: absolute;
+}
+
+/* Reset style for input range */
+
+.price-field input[type=range] {
+  width: 100%;
+    height: 7px;
+border: 1px solid #000;
+    outline: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    pointer-events: none;
+    -webkit-appearance: none;
+}
+
+.price-field input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+.price-field input[type=range]:active,
+.price-field input[type=range]:focus {
+  outline: 0;
+}
+
+.price-field input[type=range]::-ms-track {
+  width: 188px;
+  height: 2px;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  pointer-events: none;
+  background: transparent;
+  border-color: transparent;
+  color: red;
+  border-radius: 5px;
+}
+
+/* Style toddler input range */
+
+.price-field input[type=range]::-webkit-slider-thumb {
+  /* WebKit/Blink */
+    position: relative;
+    -webkit-appearance: none;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    margin-top: -4px;
+    background-color: #fff;
+    cursor: pointer;
+    cursor: pointer;
+    pointer-events: all;
+    z-index: 100;
+}
+
+.price-field input[type=range]::-moz-range-thumb {
+  /* Firefox */
+  position: relative;
+  appearance: none;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  margin-top: -5px;
+  background-color: #fff;
+  cursor: pointer;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 100;
+}
+
+.price-field input[type=range]::-ms-thumb  {
+  /* IE */
+  position: relative;
+  appearance: none;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  margin-top: -5px;
+  background-color: #242424;
+  cursor: pointer;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 100;
+}
+
+/* Style track input range */
+
+.price-field input[type=range]::-webkit-slider-runnable-track {
+  /* WebKit/Blink */
+  width: 188px;
+  height: 2px;
+  cursor: pointer;
+  background: #555;
+  border-radius: 5px;
+}
+
+.price-field input[type=range]::-moz-range-track {
+  /* Firefox */
+  width: 188px;
+  height: 2px;
+  cursor: pointer;
+  background: #242424;
+  border-radius: 5px;
+}
+
+.price-field input[type=range]::-ms-track {
+  /* IE */
+  width: 188px;
+  height: 2px;
+  cursor: pointer;
+  background: #242424;
+  border-radius: 5px;
+}
+
+/* Style for input value block */
+
+.price-wrap {
+  display: flex;
+  color: #242424;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+
+.price-wrap-1,
+.price-wrap-2 {
+  display: flex;
+  margin-left: 0px;
+}
+
+.price-title {
+  margin-right: 5px;
+}
+
+.price-wrap_line {
+    margin: 6px 0px 5px 5px;
+}
+
+.price-wrap #one,
+.price-wrap #two {
+  width: 30px;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  margin-right: 2px;
+  background:  0;
+  border: 0;
+  outline: 0;
+  color: #242424;
+  font-family: 'Karla', 'Arial', sans-serif;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 400;
+}
+
+.price-wrap label {
+    text-align: right;
+    margin-top: 6px;
+    padding-left: 5px;
+}
+
+/* Style for active state input */
+
+.price-field input[type=range]:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 0.5px #242424;
+  transition-duration: 0.3s;
+}
+
+.price-field input[type=range]:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 0.5px #242424;
+  transition-duration: 0.3s;
+}</style>
 <div class="title-block-outer">
             <img src="{{ asset('front/images/inner-banner.jpg') }}" alt="Banner-image" class="img-responsive">
             <div class="container title-block-container">
-                <h2>Men</h2>
+                <h2>{{  ($category) ? $category->name : 'Products' }}</h2>
             </div>
         </div>
         <div class="breadcrumb-panel">
             <div class="container">
                 <ol class="breadcrumb">
                     <li><a href="{{route('site')}}" title="Home">Home</a></li>
-                    <li ><a href="{{ route('product',['cid'=>$category->id]) }}" title="{{ $category->name}}">{{  ($category) ? $category->name : 'Products' }}</a></li>
+                    <li >
+                    @if ($category)
+                       <a href="{{ route('product',['cid'=>$category->id]) }}" title="{{ $category->name}}">{{  ($category) ? $category->name : 'Products' }}
+                       </a>
+                    @endif
+                    </li>
                     @if ($subcategory)
                     <li class="active">{{ $subcategory->name }}</li>
                     @endif
@@ -20,9 +237,9 @@
         </div>
         <section class="product_listing content">
             <div class="container">
-            <div class="shopping-wrap" style="margin-top:10px;">
+              <div class="shopping-wrap" style="margin-top:10px;">
 
-</div>
+                </div>
                 <div class="row">
                     <div class="col-sm-3 ">
                         <div class="left-panel">
@@ -45,7 +262,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            @if (!$subcategory_data->isEmpty())
+                            @if ($subcategory!='' && !$subcategory_data->isEmpty())
                             <div class="filter-option">
                                 <div class="title" data-toggle="collapse" href="#collapse11" aria-expanded="false">
                                  Sub-Categories
@@ -63,19 +280,16 @@
                                     </ul>
                                 </div>
                             </div>
-
                             @endif
-
                             <div class="filter-option">
                                 <div class="title" data-toggle="collapse" href="#collapse2" aria-expanded="false">Colour</div>
                                 <div class="filter-option-inner collapse in" id="collapse2">
                                     <ul class="colour_family_list clearfix">
                                       @foreach ($color_data as $c)
                                          <li>
-                                            <a href="javascript:void(0)" title="{{ $c->color}}"> <span class="{{ strtolower($c->color)}}-color"></span> {{ $c->color}} <i>(1250)</i></a>
+                                            <a href="javascript:void(0)"  onclick="get_color('{{$c->color}}','{{$c->id}}')" <?php if(isset($_GET['color'])){ if(str_contains($_GET['color'],$c->color)){echo 'checked';}}?> id="color{{ $c->id}}" title="{{ $c->color}}"> <span class="{{ strtolower($c->color)}}-color"></span> {{ $c->color}} <i>(1250)</i></a>
                                         </li>
                                         @endforeach
-
                                         <!-- <li><a href="#" title="Reset" class="reset-link">Reset</a></li> -->
                                     </ul>
                                 </div>
@@ -83,8 +297,28 @@
                             <div class="filter-option">
                                 <div class="title" data-toggle="collapse" href="#collapse3" aria-expanded="false">Price</div>
                                 <div class="filter-option-inner collapse in" id="collapse3" style="margin-top:15px;">
-                                <input type="text" class="js-range-slider" name="my_range" value="" data-type="double"  data-min="0" data-max="1000" data-from="200" data-to="500"  data-grid="true" onchange="get_range()"  />
-                                        <script>$(".js-range-slider").ionRangeSlider();</script>
+                                <div class="price-field">
+                                    <input type="range" min="100" max="500" value="135" id="lower">
+                                    <input type="range" min="100" max="500" value="500" id="upper">
+                                  </div>
+                                  <div class="price-wrap">
+                                    <span class="price-title">FILTER</span>
+                                    <div class="price-container">
+                                      <div class="price-wrap-1">
+
+                                        <label for="one">$</label>
+                                        <input id="one">
+                                      </div>
+                                      <div class="price-wrap_line">-</div>
+                                      <div class="price-wrap-2">
+                                        <label for="two">$</label>
+                                        <input id="two">
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                <!-- <input type="text" class="js-range-slider" name="my_range" value="" data-type="double"  data-min="0" data-max="1000" data-from="200" data-to="500"  data-grid="true" onchange="get_range()"  /> -->
+                                        <!-- <script>$(".js-range-slider").ionRangeSlider();</script> -->
                                     <!-- <div class="info">31 items</div>
                                     <div class="slider"><img src="{{ asset('front/images/price.jpg') }}" alt=""></div>
                                     <div class="price-range clearfix"><span class="min"> Rs. 174</span><span class="max"> Rs. 8,999</span></div> -->
@@ -141,11 +375,12 @@
                                                         <option <?= $price_desc?> value="price_desc">Price (High-To-Low)</option>
                                                     </select>
                                                 </div>
+                                                <a href="{{route('product')}}" title="Reset" class="reset-link">Reset Filter</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="grid-content">
-                                        <div class="grid row">
+                                        <div class="grid row" id="data-wrapper">
                                         @foreach ($products as $product)
                                             <div class="col-sm-4 col-xs-6">
                                                 <figure class="effect-goliath">
@@ -165,16 +400,17 @@
                                             <input type="hidden" id="pqty{{$product->id}}"  value="1">
                                             <input type="hidden" id="psize_id{{$product->id}}"  value="{{ ($sizes) ? $sizes[0] : ''}}">
                                         @endforeach
-
+                                        </div>
                                         <form id="fromAddToCart">
                                             <input type="hidden" id="size_id" name="size_id" value="">
                                             <input type="hidden" id="qty" name="qty" value="1">
                                             <input type="hidden" id="product_id" name="product_id" value="">
                                         </form>
-                                        </div>
                                     </div>
-
-                                    <div class="col-sm-12 col-xs-12">
+                                    <!-- <div id="data-wrapper">
+result
+        </div> -->
+                                    <div class="col-sm-12 col-xs-12 auto-load">
                                         <span class="button-outer text-center">
                                             <a class="btn-tertiary" href="product" title="More Products">More Products</a>
                                         </span>
@@ -189,5 +425,42 @@
                         <input type="hidden"  name="sort" id="sort">
                         <input type="hidden"  name="price_range" id="price_range">
                         <input type="hidden"  name="size" id="size_data" value="{{ (isset($_GET['size'])) ? $_GET['size'] : ''}}">
+                        <input type="hidden"  name="color" id="color_data" value="{{ (isset($_GET['color'])) ? $_GET['color'] : ''}}">
                     </form>
+<script>
+        var ENDPOINT = "{{ url('/') }}";
+        var page = 1;
+        infinteLoadMore(page);
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                page++;
+                infinteLoadMore(page);
+            }
+        });
+
+        function infinteLoadMore(page) {
+            $.ajax({
+                    url: ENDPOINT + "/products?page=" + page,
+                    datatype: "html",
+                    type: "get",
+                    beforeSend: function () {
+                        $('.auto-load').show();
+                    }
+                })
+                .done(function (response) {
+                    if (response.length == 0) {
+                        $('.auto-load').html("We don't have more data to display :(");
+                        return;
+                    }
+                    $('.auto-load').hide();
+                    $("#data-wrapper").append(response);
+                })
+                .fail(function (jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occured');
+                });
+        }
+
+    </script>
+
 @endsection

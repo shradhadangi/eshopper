@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title'){{'My Orders'}}@endsection
 @section('content')
-    <div class="title-block-outer">
+    <div class="title-block-outer hidden-print">
             <img src="{{ asset('front/images/inner-banner.jpg') }}" alt="Banner-image" class="img-responsive">
               <div class="title-block-container">
                 <div class="container">
@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <div class="breadcrumb-panel">
+        <div class="breadcrumb-panel hidden-print">
             <div class="container">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('site')}}" title="Home">Home</a></li>
@@ -82,12 +82,14 @@
                   </div>
                   <hr>
                   </div>
+                  <form method="post">
+                    @csrf
                   <div class="row">
                    <div class="col-sm-12 register profile">
                       <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>S. No.</th>
+                            <th>S. No. </th>
                             <th>Product Name</th>
                             <th>Size</th>
                             <th>Price</th>
@@ -99,19 +101,26 @@
                         <tbody>
                             <?php $i=1;?>
                                 @foreach ($order_details as $val)
-                                <tr>
-                                    <td>{{ $i++;}}</td>
-                                    <td>{{ $val->product_name }}</td>
+                                  <tr>
+                                    <td>{{ $i++;}} <input type="checkbox" name="item[]" value="{{ $val->id }}"></td>
+                                    <td><a target="_blank" href="{{ route('product-detail',['product_id'=>$val->product_id])}}">{{ $val->product_name }}</a></td>
                                     <td>{{ $val->size }}</td>
                                     <td>${{ $val->price }}</td>
                                     <td>{{ $val->qty }}</td>
                                     <td>${{ $val->total }}</td>
-                                    </tr>
+                                  </tr>
                                 @endforeach
                         </tbody>
                     </table>
+                    <a href="javascript:void(0)" class ="btn btn-sm btn-info hidden-print" onclick="print()">Print Order</a>
+                    @if ($order->status=='Pending')
+                      <button type="submit" formaction="{{ route('cancel-order')}}" class ="btn btn-sm btn-danger hidden-print" >Cancel Order</button>
+                      <input type="hidden" name="order_id" value="{{ $order->id}}">
+                    @endif
+
                   </div>
                </div>
+               </form>
             </div>
         </section>
     @endsection

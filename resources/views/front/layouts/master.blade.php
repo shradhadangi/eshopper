@@ -25,18 +25,54 @@
 	<script type="text/javascript" src="{{ asset('front/js/general.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
     <!--Plugin JavaScript file-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script> -->
     <script>  var config = {
         routes: {
             zone: "{{ URL::to('login_process') }}"
         }
-    };</script>
+    };
+    var lowerSlider = $('#lower');
+    var  upperSlider = $('#upper');
 
-</head>
+$('#two').attr('value',upperSlider.val());
+$('#one').attr('value',lowerSlider.val());
+// $('#one').val()=lowerSlider.val();
+
+var  lowerVal = parseInt(lowerSlider.val());
+var upperVal = parseInt(upperSlider.val());
+
+upperSlider.oninput = function () {
+    lowerVal = parseInt(lowerSlider.val());
+    upperVal = parseInt(upperSlider.val());
+
+    if (upperVal < lowerVal + 4) {
+        lowerSlider.value = upperVal - 4;
+        if (lowerVal == lowerSlider.min) {
+        upperSlider.value = 4;
+        }
+    }
+    $('#two').attr('value',this.value);
+};
+
+lowerSlider.oninput = function () {
+    lowerVal = parseInt(lowerSlider.val());
+    upperVal = parseInt(upperSlider.val());
+    if (lowerVal > upperVal - 4) {
+        upperSlider.value = lowerVal + 4;
+        if (upperVal == upperSlider.max) {
+            lowerSlider.value = parseInt(upperSlider.max) - 4;
+        }
+    }
+    $('#one').attr('value',this.value);
+
+};
+    </script>
+
+    </head>
 <body>
     <div class="wrapper">
         <!-- Header Start -->
-        <header class="header">
+        <header class="header hidden-print">
             <nav class="navbar navbar-default">
                 <div class="container">
                     <div class="row">
@@ -212,7 +248,7 @@
         <!-- Header End-->
 @yield('content')
 
-<footer class="footer">
+<footer class="footer hidden-print">
         <div class="container">
             <div class="clearfix">
                 <div class="footer-content">

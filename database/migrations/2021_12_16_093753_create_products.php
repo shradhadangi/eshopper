@@ -30,6 +30,7 @@ class CreateProducts extends Migration
             $table->text('size')->nullable();
             $table->text('colors')->nullable();
             $table->string('status')->default('Enabled');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
